@@ -1,1 +1,26 @@
+import pandas as pd
+import statsmodels
 
+import torch
+import torch.nn as nn
+
+import os.path
+
+import bagpy
+from bagpy import bagreader
+
+b = bagreader('09-23-59.bag')
+
+# get the list of topics
+print(b.topic_table)
+
+# get all the messages of type velocity
+velmsgs   = b.vel_data()
+veldf = pd.read_csv(velmsgs[0])
+plt.plot(veldf['Time'], veldf['linear.x'])
+
+# quickly plot velocities
+b.plot_vel(save_fig=True)
+
+# you can animate a timeseries data
+bagpy.animate_timeseries(veldf['Time'], veldf['linear.x'], title='Velocity Timeseries Plot')
